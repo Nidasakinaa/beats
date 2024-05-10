@@ -1,11 +1,14 @@
-package beats
+package module
 
 import (
 	"context"
 	"fmt"
+	"os"
+
+	"github.com/Nidasakinaa/beats/model"
+
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
-	"os"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -44,20 +47,16 @@ func InsertBiodata(nama string, jk string, agama string, prodi string, datadiri 
 	return InsertOneDoc("ATS", "biodata", biodata)
 }
 
-func GetAllBiodata() ([]interface{}, error) {
-	collection := MongoConnect("ATS").Collection("biodata")
+func GetAllBiodata(db *mongo.Database, col string) (data []model.Biodata) {
+	karyawan := db.Collection(col)
 	filter := bson.M{}
-	cursor, err := collection.Find(context.TODO(), filter)
+	cursor, err := karyawan.Find(context.TODO(), filter)
 	if err != nil {
-		fmt.Println("GetAllBiodata:", err)
-		return nil, err
+		fmt.Println("GetALLData :", err)
 	}
-	defer cursor.Close(context.TODO())
-
-	var biodata []interface{}
-	if err := cursor.All(context.TODO(), &biodata); err != nil {
-		fmt.Println("GetAllBiodata:", err)
-		return nil, err
+	err = cursor.All(context.TODO(), &data)
+	if err != nil {
+		fmt.Println(err)
 	}
-	return biodata, nil
+	return
 }

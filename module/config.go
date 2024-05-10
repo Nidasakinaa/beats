@@ -1,4 +1,4 @@
-package beats
+package module
 
 import (
 	"github.com/aiteung/atdb"

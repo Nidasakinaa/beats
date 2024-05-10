@@ -20,7 +20,7 @@ func TestInsertBiodata(t *testing.T) {
 		"kota":    "Bangka",
 		"kodepos": "1234",
 	}
-	insertedID := beats.InsertBiodata(
+	insertedID := module.InsertBiodata(
 		"Sela laa",
 		"Perempuan",
 		"Islam",
@@ -32,14 +32,6 @@ func TestInsertBiodata(t *testing.T) {
 }
 
 func TestGetAllBiodata(t *testing.T) {
-	biodataa, err := beats.GetAllBiodata()
-	if err != nil {
-		t.Errorf("Error getting all Biodata: %v", err)
-		return
-	}
-
-	fmt.Println("All Biodata:")
-	for _, biodata := range biodataa {
-		fmt.Println(biodata)
-	}
+	data := module.GetAllBiodata(module.MongoConn, "Biodata")
+	fmt.Println(data)
 }
