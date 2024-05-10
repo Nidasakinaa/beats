@@ -21,6 +21,8 @@ func MongoConnect(dbname string) (db *mongo.Database) {
 	return client.Database(dbname)
 }
 
+// insertonedoc
+
 func InsertOneDoc(db string, collection string, doc interface{}) (insertedID interface{}) {
 	insertResult, err := MongoConnect(db).Collection(collection).InsertOne(context.TODO(), doc)
 	if err != nil {
